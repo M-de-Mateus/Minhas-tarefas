@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 import { auth } from '../../firebaseconnection'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home(){
   const [email, setEmail] = useState('');
@@ -25,7 +27,16 @@ export default function Home(){
         console.log('Erro ao fazer o login!')
       })
     }else{
-      alert('Preencha todos os campos!')
+      toast.warn('Preencha todos os campos!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
     }
 
   }
@@ -45,6 +56,18 @@ export default function Home(){
         <Link className='button-link' to='/register'>
           Ainda não tem uma conta? Cadastre-se!
         </Link>
+        <ToastContainer 
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable
+            pauseOnHover
+            theme="colored"
+            />
       </div>
     )
   }

@@ -14,6 +14,9 @@ import {
     updateDoc
 } from 'firebase/firestore'
 import { async } from '@firebase/util'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function Admin(){
     const [tarefa, setTarefa] = useState('');
@@ -54,7 +57,16 @@ export default function Admin(){
         e.preventDefault();
 
         if(tarefa === ''){
-            alert('Digite sua tarefa...')
+            toast.warn('Digite sua tarefa!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
             return;
         }
 
@@ -69,7 +81,16 @@ export default function Admin(){
             userUid: user?.uid
         })
         .then(()=>{
-            console.log('Tarefa Registrada')
+            toast.success('Tarefa registrada!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
             setTarefa('');
         })
         .catch((error)=>{
@@ -85,6 +106,21 @@ export default function Admin(){
     async function deletarTarefa(id){
         const docRef = doc(db, 'tarefas', id)
         await deleteDoc(docRef)
+        .then(()=>{
+            toast.success('Tarefa concluida!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        })
+        .catch((erro)=> {
+            console.log('Erro: ' + erro)
+        })
     }
 
     function editarTarefa(item){
@@ -99,7 +135,16 @@ export default function Admin(){
             tarefa: tarefa
         })
         .then(()=>{
-            console.log('tarefa atualizada')
+            toast.info('Tarefa atualizada!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
             setTarefa('')
             setEdit({})
         })
@@ -141,6 +186,18 @@ export default function Admin(){
             ))}
             
             <button className='btn-sair' onClick={handleSair}>Sair</button>
+            <ToastContainer 
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable
+            pauseOnHover
+            theme="colored"
+            />
         </div>
     )
 }
